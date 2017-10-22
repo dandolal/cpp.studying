@@ -2,10 +2,10 @@
 
 void insertionSort (int elemNumber, int* arr) {
     int j = 0, c = 0;
-    for (int i = 1; i < elemNumber; ++i){
+    for (int i = 1; i < elemNumber; ++i) {
         j = i - 1;
         c = arr[i];
-        while ((j >= 0)&&(arr[j] > c)){
+        while ( (j >= 0) && (arr[j] > c) ) {
             arr[j+1] = arr[j];
             arr[j] = c;
             --j;
