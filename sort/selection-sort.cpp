@@ -1,17 +1,15 @@
 #include <iostream>
 
 void insertionSort (int elemNumber, int* arr) {
-    int curNum = 0, minElem = 0, numMinElem;
+    int curInd = 0, minElemInd;
     for (int i = 0; i < elemNumber; ++i) {
-        minElem = arr[i];
-        numMinElem = i;
-        for (curNum = i+1; curNum < elemNumber; ++curNum) {
-            if (arr[curNum] < minElem) {
-                minElem = arr[curNum];
-                numMinElem = curNum;
+        minElemInd = i;
+        for (curInd = i + 1; curInd < elemNumber; ++curInd) {
+            if (arr[curInd] < arr[i]) {
+                std::swap (arr[i], arr[curInd]);
+                minElemInd = curInd;
             }
         }
-        std::swap (arr[i], arr[numMinElem]);
     }
 }
 
