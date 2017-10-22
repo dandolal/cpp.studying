@@ -1,6 +1,6 @@
 #include <iostream>
 
-void insertionSort (int elemNumber, int* arr) {
+void selectionSort (int elemNumber, int* arr) {
     int curInd = 0, minElemInd;
     for (int i = 0; i < elemNumber; ++i) {
         minElemInd = i;
@@ -19,7 +19,7 @@ int main( ) {
     int* arr = new int[elemNumber];
     for (int i = 0; i < elemNumber; ++i)
         std::cin >> arr[i];
-    insertionSort (elemNumber, arr);
+    selectionSort (elemNumber, arr);
     for (int i = 0; i < elemNumber; ++i)
         std::cout << arr[i] << " ";
     delete[] arr;
