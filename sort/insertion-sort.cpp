@@ -19,7 +19,7 @@ int main( ) {
     int* arr = new int[elemNumber];
     for (int i = 0; i < elemNumber; ++i)
         std::cin >> arr[i];
-    insertionSort(elemNumber, arr);
+    insertionSort (elemNumber, arr);
     for (int i = 0; i < elemNumber; ++i)
         std::cout << arr[i] << " ";
     delete[] arr;
