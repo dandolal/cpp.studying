@@ -1,14 +1,14 @@
 #include <iostream>
 
 void insertionSort (int elemNumber, int* arr) {
-    int j = 0, c = 0;
+    int curNum = 0, curElem = 0;
     for (int i = 1; i < elemNumber; ++i) {
-        j = i - 1;
-        c = arr[i];
-        while ( (j >= 0) && (arr[j] > c) ) {
-            arr[j+1] = arr[j];
-            arr[j] = c;
-            --j;
+        curNum = i - 1;
+        curElem = arr[i];
+        while ( (curNum >= 0) && (arr[curNum] > curElem) ) {
+            arr[curNum+1] = arr[curNum];
+            arr[curNum] = curElem;
+            --curNum;
         }
     }
 }
