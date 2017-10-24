@@ -1,11 +1,10 @@
 #include <iostream>
 void mergeArr (int* arr, int* copyArr, int left, int right, int mid) {
-    mid = (left+right)/2;
-    int a = left, b = mid, i = 0;
-    for (i = left; i < right; ++i) {
+    int a = left, b = mid;
+    for (int i = left; i < right; ++i) {
         copyArr[i] = arr[i];
     }
-    for (i = left; i < right; ++i){
+    for (int i = left; i < right; ++i){
         if (a >= mid) {
             arr[i] = copyArr[b];
             ++b;
@@ -13,22 +12,21 @@ void mergeArr (int* arr, int* copyArr, int left, int right, int mid) {
             arr[i] = copyArr[a];
             ++a;
         } else if (copyArr[a] < copyArr[b]) {
-            arr[i] = copyArr [a];
+            arr[i] = copyArr[a];
             ++a;
         } else {
-            arr[i] = copyArr [b];
+            arr[i] = copyArr[b];
             ++b;
         }
     }
-    delete[] copyArr;
 }
 
 void mergeSort (int* arr, int* copyArr, int left, int right) {
-    if (left == right)
+    if (left == right - 1)
         return;
-    int mid = (left + right)/2;
+    int mid = (left + right) / 2;
     mergeSort (arr, copyArr, left, mid);
-    mergeSort (arr, copyArr, mid + 1, right);
+    mergeSort (arr, copyArr, mid, right);
     mergeArr (arr, copyArr, left, right, mid);
 }
 
