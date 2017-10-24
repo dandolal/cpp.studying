@@ -25,9 +25,9 @@ void mergeSort(int* arr, int* copyArr, int left, int right) {
     if (left == right - 1)
         return;
     int mid = (left + right) / 2;
-    mergeSort (arr, copyArr, left, mid);
-    mergeSort (arr, copyArr, mid, right);
-    mergeArr (arr, copyArr, left, right, mid);
+    mergeSort(arr, copyArr, left, mid);
+    mergeSort(arr, copyArr, mid, right);
+    mergeArr(arr, copyArr, left, right, mid);
 }
 
 
