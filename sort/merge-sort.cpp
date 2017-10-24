@@ -1,5 +1,5 @@
 #include <iostream>
-void mergeArr (int* arr, int* copyArr, int left, int right, int mid) {
+void mergeArr(int* arr, int* copyArr, int left, int right, int mid) {
     int a = left, b = mid;
     for (int i = left; i < right; ++i) {
         copyArr[i] = arr[i];
@@ -21,7 +21,7 @@ void mergeArr (int* arr, int* copyArr, int left, int right, int mid) {
     }
 }
 
-void mergeSort (int* arr, int* copyArr, int left, int right) {
+void mergeSort(int* arr, int* copyArr, int left, int right) {
     if (left == right - 1)
         return;
     int mid = (left + right) / 2;
@@ -33,14 +33,12 @@ void mergeSort (int* arr, int* copyArr, int left, int right) {
 
 int main( ) {
     int elemNumber;
-    int left = 0;
     std::cin >> elemNumber;
-    int right = elemNumber;
     int* arr = new int[elemNumber];
     int* copyArr = new int[elemNumber];
     for (int i = 0; i < elemNumber; ++i)
         std::cin >> arr[i];
-    mergeSort (arr, copyArr, 0, elemNumber);
+    mergeSort(arr, copyArr, 0, elemNumber);
     for (int i = 0; i < elemNumber; ++i)
         std::cout << arr[i] << " ";
     delete[] arr;
