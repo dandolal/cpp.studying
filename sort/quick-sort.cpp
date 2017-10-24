@@ -1,35 +1,30 @@
 #include <iostream>
-int partArr(int* arr, int left, int right) {
+int partArr(int* arr, int* copyArr, int left, int right) {
     int pos = (right + left) / 2;
     int a = left, b = right - 1;
-    while (a < pos) {
-        if (arr[a] <= arr[pos])
+    int pivot = arr[pos];
+    for (int i = left; i < right; ++i) {
+        copyArr[i] = arr [i];
+    }
+    for (int i = left; i < right; ++i) {
+        if (copyArr[i] < pivot) {
+            arr[a] = copyArr[i];
             ++a;
-        else {
-            std::swap(arr[a], arr[pos]);
-            std::swap(arr[a], arr[pos - 1]);
-            --pos;
-        }
-    }
-    while (b > pos) {
-        if (arr[b] >= arr[pos])
+        } else {
+            arr[b] = copyArr[i];
             --b;
-        else {
-            std::swap(arr[b], arr[pos]);
-            std::swap(arr[b], arr[pos + 1]);
-            ++pos;
         }
     }
-    return pos;
+    return a;
 }
 
-void quickSort(int* arr, int left, int right) {
+void quickSort(int* arr, int* copyArr, int left, int right) {
     if (left == right - 1)
         return;
-    partArr(arr, left, right);
-    int pos = partArr(arr, left, right);
-    quickSort(arr, left, pos);
-    quickSort(arr, pos, right);
+    partArr(arr, copyArr, left, right);
+    int a = partArr(arr, copyArr, left, right);
+    quickSort(arr, copyArr, left, a);
+    quickSort(arr, copyArr, a, right);
 
 }
 
@@ -38,11 +33,13 @@ int main( ) {
     int elemNumber;
     std::cin >> elemNumber;
     int* arr = new int[elemNumber];
+    int* copyArr = new int[elemNumber];
     for (int i = 0; i < elemNumber; ++i)
         std::cin >> arr[i];
-    quickSort(arr, 0, elemNumber);
+    quickSort(arr, copyArr, 0, elemNumber);
     for (int i = 0; i < elemNumber; ++i)
         std::cout << arr[i] << " ";
     delete[] arr;
+    delete[] copyArr;
     return 0;
 }
