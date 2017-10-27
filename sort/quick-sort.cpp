@@ -1,20 +1,16 @@
 #include <iostream>
+
 int partArr(int* arr, int left, int right) {
     int b = right;
     int a = left;
     int pivot = arr[(left + right) / 2];
     while (a <= b) {
-        while (arr[a] < pivot) {
+        while (arr[a] < pivot) 
             ++a;
-        }
-        while (arr[b] > pivot) {
+        while (arr[b] > pivot) 
             --b;
-        }
-        if (a <= b) {
-            std::swap(arr[a], arr[b]);
-            ++a;
-            --b;
-        }
+        if (a <= b) 
+            std::swap(arr[a++], arr[b--]);
     }
     return a;
 }
