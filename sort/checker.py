@@ -1,11 +1,12 @@
 import subprocess
 import os
 import random
+import time
 
 MAX_TEST_SIZE = 100000
 MIN_TEST_SIZE = 1
 MAX_VALUE = 100000000
-TEST_NUMBER = 25
+TEST_NUMBER = 10
 
 
 def gen_test(size):
@@ -41,12 +42,14 @@ if __name__ == "__main__":
             print("Checking " + program[:-4] + "...")
             verdict = True
             for i in range(0, TEST_NUMBER):
-                print("TEST " + str(i + 1))
                 test_size = random.randint(MIN_TEST_SIZE, MAX_TEST_SIZE)
+                print("TEST " + str(i + 1) + '\t' + "SIZE " + str(test_size), end='\t')
                 input_data = gen_test(test_size)
+                start = time.time()
                 p = subprocess.Popen(['./check'], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
                                      universal_newlines=True)
                 output_data = p.communicate(input=input_data[0])[0]
+                print('TIME {0:.3f}sec'.format(time.time() - start))
                 verdict = check_ans(i + 1, test_size, input_data[1], output_data.split(' '))
                 if not verdict:
                     break
