@@ -8,7 +8,6 @@ class Heap {
     ~Heap()
     Heap(int elemNumber, int* arr) {
         int* buff = new int[buffSize];
-        copyArr(arr, buff, elemnumber);
     }
     void copyArr(int* arr, int* buff, int elemnumber) {
         for (int i = 0; i < elemnumber; ++i) {
@@ -16,7 +15,7 @@ class Heap {
         }
     }
     int getSize() const {
-        return elemNumber;
+        return buffSize;
     }
     void siftdown(int i, int* buff ,int right) {
         while (2 * i + 1 <= right - 1) {
