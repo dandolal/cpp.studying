@@ -14,7 +14,7 @@ class Heap {
 
     Heap(int elemnumber, int* arr) {
         size = elemnumber;
-        int* buff = new int[buffSize];
+        buff = new int[buffSize];
         build(arr, size);
     }
 
