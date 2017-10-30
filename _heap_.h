@@ -1,34 +1,56 @@
 #include <iostream>
-const int buffSize = 1000000;
+const std::size_t buffSize = 1000000;
 
 class Heap {
-
-    int* buff;
-    int size;
 
   public:
 
     ~Heap() {
-        delete[] buff;
+        delete[] buff_;
     }
 
-    Heap(int elemnumber, int* arr) {
-        size = elemnumber;
-        buff = new int[buffSize];
-        build(arr, size);
+    Heap(std::size_t elemnumber, int* arr) {
+        size_ = elemnumber;
+        buff_ = new int[buffSize];
+        build(arr, size_);
     }
 
-    int getSize() const {
-        return size;
+    std::size_t size() const {
+        return size_;
     }
 
-    void siftDown(int i) {
-        while (2 * i + 1 < size) {
-            int k = 2 * i + 1;
-            if ((2 * i + 2 < size) && (buff[2 * i + 2] < buff[2 * i + 1]))
+   
+
+    int erase() {
+        int min = buff_[0];
+        buff_[0] = buff_[size_ - 1];
+        --size_;
+        siftDown(0);
+        return min;
+    }
+
+    void newElem(int newElem) {
+        ++size_;
+        buff_[size_ - 1] = newElem;
+        siftUp(size_ - 1);
+    }
+
+    int get const () {
+        return buff_[0];
+    }
+    
+  private:
+    
+     int* buff_;
+     std::size_t size_;
+     
+     void siftDown(std::size_t i) {
+        while (2 * i + 1 < size_) {
+            std::size_t k = 2 * i + 1;
+            if ((2 * i + 2 < size_) && (buff_[2 * i + 2] < buff_[2 * i + 1]))
                 k = 2 * i + 2;
-            if (buff[i] > buff[k]) {
-                std::swap(buff[i], buff[k]);
+            if (buff_[i] > buff_[k]) {
+                std::swap(buff_[i], buff_[k]);
                 i = k;
             }
             else
@@ -36,35 +58,17 @@ class Heap {
         }
     }
 
-    void siftUp(int i) {
-        while (buff[i] < buff[(i - 1) / 2]) {
-            std::swap(buff[i], buff[(i - 1) / 2]);
+    void siftUp(std::size_t i) {
+        while (buff_[i] < buff_[(i - 1) / 2]) {
+            std::swap(buff_[i], buff_[(i - 1) / 2]);
             i = (i - 1) / 2;
         }
     }
 
-    void build(int* arr, int size) {
-        for (int j = 0; j < size; ++j) {
-            buff[j] = arr[j];
+    void build(int* arr, std::size_t size_) {
+        for (std::size_t j = 0; j < size_; ++j) {
+            buff_[j] = arr[j];
             siftUp(j);
         }
-    }
-
-    int eraseMin() {
-        int min = buff[0];
-        buff[0] = buff[size - 1];
-        --size;
-        siftDown(0);
-        return min;
-    }
-
-    void newElem(int newElem) {
-        ++size;
-        buff[size - 1] = newElem;
-        siftUp(size - 1);
-    }
-
-    int get_min() {
-        return buff[0];
     }
 };
