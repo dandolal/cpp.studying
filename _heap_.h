@@ -23,14 +23,16 @@ class Heap {
     }
 
     void siftDown(int i) {
-        while (2 * i + 1 <= size - 1) {
+        while (2 * i + 1 < size) {
             int k = 2 * i + 1;
-            if ((2 * i + 2 < size - 1) && (buff[2 * i + 2] < buff[2 * i + 1]))
+            if ((2 * i + 2 < size) && (buff[2 * i + 2] < buff[2 * i + 1]))
                 k = 2 * i + 2;
             if (buff[i] > buff[k]) {
                 std::swap(buff[i], buff[k]);
                 i = k;
             }
+            else
+                break;
         }
     }
 
@@ -58,7 +60,7 @@ class Heap {
 
     void newElem(int newElem) {
         ++size;
-        buff[size - 1];
+        buff[size - 1] = newElem;
         siftUp(size - 1);
     }
 
