@@ -39,7 +39,7 @@ class Heap {
         delete[] buff_;
     }
 
-    Heap(std::size_t elemnumber, int* arr) {
+    Heap(std::size_t elemnumber = 0, int* arr = nullptr) { 
         size_ = elemnumber;
         buff_ = new int[buffSize];
         build(arr, size_);
