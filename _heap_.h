@@ -2,47 +2,9 @@
 const std::size_t buffSize = 1000000;
 
 class Heap {
-
-  public:
-
-    ~Heap() {
-        delete[] buff_;
-    }
-
-    Heap(std::size_t elemnumber, int* arr) {
-        size_ = elemnumber;
-        buff_ = new int[buffSize];
-        build(arr, size_);
-    }
-
-    std::size_t size() const {
-        return size_;
-    }
-
-   
-
-    int erase() {
-        int min = buff_[0];
-        buff_[0] = buff_[size_ - 1];
-        --size_;
-        siftDown(0);
-        return min;
-    }
-
-    void newElem(int newElem) {
-        ++size_;
-        buff_[size_ - 1] = newElem;
-        siftUp(size_ - 1);
-    }
-
-    int get const () {
-        return buff_[0];
-    }
-    
-  private:
-    
-     int* buff_;
-     std::size_t size_;
+  
+    int* buff_;
+    std::size_t size_;
      
      void siftDown(std::size_t i) {
         while (2 * i + 1 < size_) {
@@ -70,5 +32,38 @@ class Heap {
             buff_[j] = arr[j];
             siftUp(j);
         }
+    }
+  public:
+
+    ~Heap() {
+        delete[] buff_;
+    }
+
+    Heap(std::size_t elemnumber, int* arr) {
+        size_ = elemnumber;
+        buff_ = new int[buffSize];
+        build(arr, size_);
+    }
+
+    std::size_t size() const {
+        return size_;
+    }
+
+    int erase() {
+        int min = buff_[0];
+        buff_[0] = buff_[size_ - 1];
+        --size_;
+        siftDown(0);
+        return min;
+    }
+
+    void add(int newElem) {
+        ++size_;
+        buff_[size_ - 1] = newElem;
+        siftUp(size_ - 1);
+    }
+
+    int get () const {
+        return buff_[0];
     }
 };
