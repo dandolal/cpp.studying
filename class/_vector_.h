@@ -44,7 +44,7 @@ class Vector {
 
     void insert(int i, T elem) {
         if (capacity_ == size_)
-            realloc(2 * capacity_);
+            realloc(2 * capacity_ + 1);
         for (int j = size_ - 1; j >= i; --j)
             buff_[j + 1] = buff_[j];
         buff_[i] = elem;
