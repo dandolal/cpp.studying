@@ -77,7 +77,7 @@ class Vector {
         }
         if (4*size_ <= capacity_) {
             if (capacity_ / 2 < minSize)
-                realloc(16);
+                realloc(minSize);
             else
                 realloc(capacity_ / 2);
         }
@@ -96,7 +96,7 @@ class Vector {
         --size_;
         if (4*size_ <= capacity_) {
             if (capacity_ / 2 < minSize)
-                realloc(16);
+                realloc(minSize);
             else
                 realloc(capacity_ / 2);
         }
