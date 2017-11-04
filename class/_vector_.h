@@ -13,7 +13,7 @@ class Vector {
             copy[i] = buff_[i];
         delete[] buff_;
         buff_ = copy;
-        delete copy[];
+        delete[] copy;
         capacity_ = N;
     }
 
@@ -33,7 +33,7 @@ class Vector {
     
     explicit Vector (int size, const T& value) { 
         capacity_ = std::max(size, minSize);
-        buff_ = new T[capacity_] 
+        buff_ = new T[capacity_]; 
         for (int i = 0; i < size; ++i) 
             buff_[i] = value; 
         size_ = size;
@@ -71,36 +71,45 @@ class Vector {
     }
 
     void erase(int i) {
-        --size_;
-        for (int j = i; j < size_; ++j) {
-            buff_[j] = buff_[j+1];
-        }
-        if (4*size_ <= capacity_) {
-            if (capacity_ / 2 < minSize)
-                realloc(minSize);
-            else
-                realloc(capacity_ / 2);
+        if (isEmpty() == true) {
+            throw std::out_of_range("EMPTY_VECTOR");
+        } else {
+            --size_;
+            for (int j = i; j < size_; ++j) {
+                buff_[j] = buff_[j+1];
+            }
+            if (4*size_ <= capacity_) {
+                if (capacity_ / 2 < minSize)
+                    realloc(16);
+                else
+                    realloc(capacity_ / 2);
+            }
         }
     }
 
     void pushBack(T elem) {
         if (capacity_ == size_) {
-            realloc(2 * capacity_ + 1)
+            realloc(2 * capacity_ + 1);
         }
         buff_[size_] = elem;
         ++size_;
     }
 
     T popBack() {
-        T elem = buff_[size_ - 1];
-        --size_;
-        if (4*size_ <= capacity_) {
-            if (capacity_ / 2 < minSize)
-                realloc(minSize);
-            else
-                realloc(capacity_ / 2);
+        if (isEmpty() == true) {
+            throw std::out_of_range("EMPTY_VECTOR");
+        } else {
+            T elem = buff_[size_ - 1];
+            --size_;
+            if (4*size_ <= capacity_) {
+                if (capacity_ / 2 < minSize)
+                    realloc(16);
+                else
+                    realloc(capacity_ / 2);
+            }
+            return elem;
         }
-        return elem;
+        
     }
 
     void resize(int count, T value) {
@@ -113,7 +122,7 @@ class Vector {
 
     T& at(int i) {
         if (i >= size_)
-            throw std::out_of_range;
+            throw std::out_of_range("не попал");
         else
             return buff_[i];
     }
