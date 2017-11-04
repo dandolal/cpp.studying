@@ -1,5 +1,5 @@
 #include <iostream>
-const int minSize = 16;
+const int MIN_CAPACITY = 16;
 
 template <typename T>
 class Vector {
@@ -13,7 +13,6 @@ class Vector {
             copy[i] = buff_[i];
         delete[] buff_;
         buff_ = copy;
-        delete[] copy;
         capacity_ = N;
     }
 
@@ -23,19 +22,19 @@ class Vector {
         delete[] buff_;
     }
 
-    explicit Vector (int size = 0) { 
-        capacity_ = std::max(size, minSize);
-        buff_ = new T[capacity_]; 
-        for (int i = 0; i < size; ++i) 
-            buff_[i] = T(); 
+    explicit Vector (int size = 0) {
+        capacity_ = std::max(size, MIN_CAPACITY);
+        buff_ = new T[capacity_];
+        for (int i = 0; i < size; ++i)
+            buff_[i] = T();
         size_ = size;
     }
-    
-    explicit Vector (int size, const T& value) { 
-        capacity_ = std::max(size, minSize);
-        buff_ = new T[capacity_]; 
-        for (int i = 0; i < size; ++i) 
-            buff_[i] = value; 
+
+    explicit Vector (int size, const T& value) {
+        capacity_ = std::max(size, MIN_CAPACITY);
+        buff_ = new T[capacity_];
+        for (int i = 0; i < size; ++i)
+            buff_[i] = value;
         size_ = size;
     }
 
@@ -70,20 +69,22 @@ class Vector {
         return capacity_;
     }
 
+    int size () const {
+        return size_;
+    }
+
     void erase(int i) {
-        if (isEmpty() == true) {
+        if (isEmpty()) {
             throw std::out_of_range("EMPTY_VECTOR");
-        } else {
-            --size_;
-            for (int j = i; j < size_; ++j) {
-                buff_[j] = buff_[j+1];
-            }
-            if (4*size_ <= capacity_) {
-                if (capacity_ / 2 < minSize)
-                    realloc(16);
-                else
-                    realloc(capacity_ / 2);
-            }
+        --size_;
+        for (int j = i; j < size_; ++j) {
+            buff_[j] = buff_[j+1];
+        }
+        if (4*size_ <= capacity_) {
+            if (capacity_ / 2 < MIN_CAPACITY)
+                realloc(MIN_CAPACITY);
+            else
+                realloc(capacity_ / 2);
         }
     }
 
@@ -96,35 +97,32 @@ class Vector {
     }
 
     T popBack() {
-        if (isEmpty() == true) {
+        if (isEmpty()) {
             throw std::out_of_range("EMPTY_VECTOR");
-        } else {
-            T elem = buff_[size_ - 1];
-            --size_;
-            if (4*size_ <= capacity_) {
-                if (capacity_ / 2 < minSize)
-                    realloc(16);
-                else
-                    realloc(capacity_ / 2);
-            }
-            return elem;
+        T elem = buff_[size_ - 1];
+        --size_;
+        if (4*size_ <= capacity_) {
+            if (capacity_ / 2 < MIN_CAPACITY)
+                realloc(MIN_CAPACITY);
+            else
+                realloc(capacity_ / 2);
         }
-        
+        return elem;
     }
 
     void resize(int count, T value) {
-        if (size_ + count > capacity_)
-            realloc(2 * (capacity_ + count));
-        for (int j = size_; j < size_ + count; ++j)
-            buff_[j] = value;
-        size_ = size_ + count;
+        realloc(count);
+        if (count > size_) {
+            for (int i = size_; i < count; ++i)
+                buff_[i] = value;
+            size_ = count;
+        }
     }
 
     T& at(int i) {
         if (i >= size_)
-            throw std::out_of_range("не попал");
-        else
-            return buff_[i];
+            throw std::out_of_range("OUT_OF_RANGE");
+        return buff_[i];
     }
 
     void shrinkToFit() {
