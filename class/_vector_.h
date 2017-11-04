@@ -1,155 +1,140 @@
 #include <iostream>
 
+const int MIN_CAPACITY = 16;
+
 template <typename T>
-class <vector> {
-    
+class Vector {
+
     T* buff_;
-    T* copyBuff_;
-    int size_, curElemNumber_;
-  
-  public:
-      
-    ~vector() {
-        delete[] buff;
-    }
-    
-    vector() {
-        size_ = 1;
-        curElemNumber_ = 0;
-        buff_ = new T[size_];
-        buff_ = new T[size_];
-    }
-    
-    T front() const {
-        return buff_[0];
-    }
-    
-    T back() const {
-        return buff_[curElemNumber_ - 1];
-    }
-    
-    bool isEmpty() const {
-        if (curElemNumber_ == 0) 
-            return true;
-        return false
-    }
-    
-    void insert(int i, T elem) {
-        if (size_ == curElemNumber_) {
-            for (int j = 0; j < curElemNumber_; ++j)
-                copyBuff_[j] = buff_[j];
-            delete[] buff_;
-            size_ = 2 * size_;
-            ++curElemNumber_;
-            buff_ = new T[size_];
-            for (int j = 0; j < i; ++j)
-                buff_[j] = copyBuff_[j];
-            buff[i] = elem;
-            for (int j = i; j < curElemNumber_ - 1)
-                buff[j + 1] = copyBuff_[j];
-            delete copyBuff_;
-            copyBuff_ = new T [size_];
-        } else{
-            for (int j = curElemNumber_ - 1; j >= i; --j)
-                buff_[j + 1] = buff_[j];
-            buff_[i] = elem;
-        }
-    }
-    
-    void clear() {
+    int capacity_, size_;
+
+    void realloc(int N) {
+        T* copy = new T[N];
+        for (int i =0; i < size_; ++i)
+            copy[i] = buff_[i];
         delete[] buff_;
-        delete[] copyBuff_;
-        curElemNumber_ = 0;
-        buff_ = new T[size_];
-        buff_ = new T[size_];
+        buff_ = copy;
+        capacity_ = N;
     }
-    
+
+  public:
+
+    ~Vector() {
+        delete[] buff_;
+    }
+
+    explicit Vector (int size = 0) {
+        capacity_ = std::max(size, MIN_CAPACITY);
+        buff_ = new T[capacity_];
+        for (int i = 0; i < size; ++i)
+            buff_[i] = T();
+        size_ = size;
+    }
+
+    explicit Vector (int size, const T& value) {
+        capacity_ = std::max(size, MIN_CAPACITY);
+        buff_ = new T[capacity_];
+        for (int i = 0; i < size; ++i)
+            buff_[i] = value;
+        size_ = size;
+    }
+
+    T& front() {
+        return at(0);
+    }
+
+    T& back() {
+        return at(size_ - 1);
+    }
+
+    bool isEmpty() const {
+        return size_ == 0;
+    }
+
+    void insert(int i, T elem) {
+        if (capacity_ == size_)
+            realloc(2 * capacity_);
+        for (int j = size_ - 1; j >= i; --j)
+            buff_[j + 1] = buff_[j];
+        buff_[i] = elem;
+        ++size_;
+    }
+
+    void clear() {
+        size_ = 0;
+        realloc(0);
+        buff_ = nullptr;
+    }
+
     int capacity() const {
+        return capacity_;
+    }
+
+    int size () const {
         return size_;
     }
-    
+
     void erase(int i) {
-        --curElemNumber_;
-        for (int j = i; j < curElemNumber_; ++j) { 
-            buff[j] = buff[j+1];
+        if (isEmpty()) {
+            throw std::out_of_range("EMPTY_VECTOR");
+        --size_;
+        for (int j = i; j < size_; ++j) {
+            buff_[j] = buff_[j+1];
         }
-        if (4*curElemNumber_ <= size_) {
-            for (int j = 0; j < curElemNumber_; ++j) 
-                copyBuff_[j] = buff[j];
-            delete[] buff_;
-            size_ = size_ / 2;
-            buff_ = new T[size_];
-            for (int j = 0; j < curElemNumber_; ++j)
-                buff_[j] = copyBuff_[j];
-            delete copyBuff_;
-            copyBuff_ = new T [size_];
+        if (4*size_ <= capacity_) {
+            if (capacity_ / 2 < MIN_CAPACITY)
+                realloc(MIN_CAPACITY);
+            else
+                realloc(capacity_ / 2);
         }
     }
-    
+
     void pushBack(T elem) {
-        if (size_ == curElemNumber_) {
-            for (int j = 0; j < curElemNumber_; ++j) 
-                copyBuff_[j] = buff[j];
-            delete[] buff_;
-            size_ = size_ * 2;
-            buff_ = new T[size_];
-            for (int j = 0; j < curElemNumber_; ++j)
-                buff_[j] = copyBuff_[j];
-            delete copyBuff_;
-            copyBuff_ = new T [size_];
+        if (capacity_ == size_) {
+            realloc(2 * capacity_ + 1);
         }
-        buff_[curElemNumber_] = elem;
-        ++curElemNumber_;
+        buff_[size_] = elem;
+        ++size_;
     }
-    
-    void popBack() {
-        --curElemNumber_;
-        if (4*curElemNumber_ <= size_) {
-            for (int j = 0; j < curElemNumber_; ++j) 
-                copyBuff_[j] = buff[j];
-            delete[] buff_;
-            size_ = size_ / 2;
-            buff_ = new T[size_];
-            for (int j = 0; j < curElemNumber_; ++j)
-                buff_[j] = copyBuff_[j];
-            delete copyBuff_;
-            copyBuff_ = new T [size_];
+
+    T popBack() {
+        if (isEmpty()) {
+            throw std::out_of_range("EMPTY_VECTOR");
+        T elem = buff_[size_ - 1];
+        --size_;
+        if (4*size_ <= capacity_) {
+            if (capacity_ / 2 < MIN_CAPACITY)
+                realloc(MIN_CAPACITY);
+            else
+                realloc(capacity_ / 2);
         }
+        return elem;
     }
-    
+
     void resize(int count, T value) {
-        if (curElemNumber_ + count > size_) {
-            for (int j = 0; j < curElemNumber_; ++j) 
-                copyBuff_[j] = buff[j];
-            delete[] buff_;
-            size_ = (curElemNumber_ + count) * 2;
-            buff_ = new T[size_];
-            for (int j = 0; j < curElemNumber_; ++j)
-                buff_[j] = copyBuff_[j];
-            delete copyBuff_;
-            copyBuff_ = new T [size_];
+        realloc(count);
+        if (count > size_) {
+            for (int i = size_; i < count; ++i)
+                buff_[i] = value;
+            size_ = count;
         }
-        for (int j = curElemNumber_; j < curElemNumber_ + count; ++j) 
-            buff_[j] = value;
-        curElemNumber_ = curElemNumber_ + count;
     }
-    
-    T at(int i) const {
-        if (i !< curElemNumber_) 
-            std::cout << "std::out_of_range" << std::endl;
-        else
-            return buff_[i];
+
+    T& at(int i) {
+        if (i >= size_)
+            throw std::out_of_range("OUT_OF_RANGE");
+        return buff_[i];
     }
-    
+
     void shrinkToFit() {
-        for (int j = 0; j < curElemNumber_; ++j) 
-            copyBuff_[j] = buff[j];
-        delete[] buff_;
-        size_ = curElemNumber_;
-        buff_ = new T[size_];
-        for (int j = 0; j < curElemNumber_; ++j)
-            buff_[j] = copyBuff_[j];
-        delete copyBuff_;
-        copyBuff_ = new T [size_];
+       realloc(size_);
+    }
+
+    template <typename U>
+    Vector (const Vector& another) {
+        buff_ = new T[another.capacity()];
+        for (int i = 0; i < another.size(); ++i) {
+            buff_[i] = another.at[i];
+        }
     }
 };
