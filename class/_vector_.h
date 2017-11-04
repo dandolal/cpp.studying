@@ -128,4 +128,12 @@ class Vector {
     void shrinkToFit() {
        realloc(size_);
     }
+
+    template <typename U>
+    Vector (const Vector& another) {
+        buff_ = new T[another.capacity()];
+        for (int i = 0; i < another.size(); ++i) {
+            buff_[i] = another.at[i];
+        }
+    }
 };
