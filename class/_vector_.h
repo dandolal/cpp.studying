@@ -1,4 +1,5 @@
 #include <iostream>
+
 const int MIN_CAPACITY = 16;
 
 template <typename T>
