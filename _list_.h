@@ -170,7 +170,7 @@ struct List {
         Node* cur1 = li1.first, li2.cur2 = li2.first;
         while (cur1->next != nullptr)
             swapElem(cur1, li2.cur2);
-        std::swap(cur1, li2.cur2)
+        std::swap(cur1, li2.cur2);
     }
 
    private:
