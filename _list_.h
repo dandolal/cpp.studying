@@ -5,6 +5,11 @@ struct Node {
     T elem;
     Node* prev;
     Node* next;
+
+    Node (T item) {
+        Node* cur = new Node;
+        cur->elem = item;
+    }
 };
 
 template <typename T>
@@ -19,23 +24,21 @@ struct List {
     }
 
     ~List() {
-        Node* cur = first;
-        while (cur->next != nullptr)
-            deleteElem(cur);
-        delete cur;
+        for (int i = 0; i < size_; ++i)
+            popBack();
         delete List;
     }
 
     bool isEmpty() const {
-        return first == nullptr;
+        return size_ == 0;
     }
 
-    Node* front() {
-        return first;
+    T& front() {
+        return first->elem;
     }
 
-    Node* back() {
-        return last;
+    T& back() {
+        return last->elem;
     }
 
     int size() const {
@@ -43,10 +46,9 @@ struct List {
     }
 
     void pushBack(T newElem) {
-        Node* cur = new Node;
+        Node(newElem);
         cur->next = nullptr;
-        cur->elem = newElem;
-        if (first != nullptr) {
+        if (size_ != 0) {
             last->next = cur;
             cur->prev = last;
             last = cur;
@@ -58,10 +60,9 @@ struct List {
     }
 
     void pushFront(T newElem) {
-        Node* cur = new Node;
+        Node(newElem);
         cur->prev = nullptr;
-        cur->elem = newElem;
-        if (first != nullptr) {
+        if (size_ != 0) {
             first->prev = cur;
             cur->next = first;
             first = cur;
@@ -91,15 +92,16 @@ struct List {
     }
 
     void reverse(Node* node = first) {
-        if (node->next == nullptr)
+        if (node->next == nullptr) {
+            std::swap(node->next, node->prev);
             return;
+        }
         std::swap(node->next, node->prev);
         reverse(node->prev);
     }
 
     void insertBefore (Node* item, T value) {
-        Node* cur = new Node;
-        cur->elem = value;
+        Node(value);
         cur->next = item;
         if (item == first) {
             first = cur;
@@ -113,8 +115,7 @@ struct List {
     }
 
     void insertAfter (Node* item, T value) {
-        Node* cur = new Node;
-        cur->elem = value;
+        Node(value);
         cur->prev = item;
         if (item == last) {
             last = cur;
@@ -158,34 +159,13 @@ struct List {
     }
 
     void clear() {
-        Node* cur = first;
-        while (cur->next != nullptr)
-            deleteElem(cur);
-        delete cur;
-        size_ = 0;
-        first = last = nullptr;
+        for (int i = 0; i < size_; ++i)
+            popBack();
     }
 
     void swap(List li) {
-        Node* cur1 = li1.first, li2.cur2 = li2.first;
-        while (cur1->next != nullptr)
-            swapElem(cur1, li2.cur2);
-        std::swap(cur1, li2.cur2);
-    }
-
-   private:
-
-    void deleteElem(Node* elem) {
-        cur = elem->next;
-        delete elem;
-        deleteElem(cur);
-    }
-
-    void swapElem(Node* elem1, Node* li2.elem2) {
-        cur1 = li1.elem1->next;
-        li2.cur2 = li2.elem2->next;
-        std::swap(elem1, li2.elem2);
-        swapElem(cur1, li2.cur2);
+        std::swap(first, li.first);
+        std::swap(last, li.last);
     }
 };
 
