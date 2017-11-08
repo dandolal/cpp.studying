@@ -166,6 +166,7 @@ struct List {
     void swap(List li) {
         std::swap(first, li.first);
         std::swap(last, li.last);
+        std::swap(size_, li.size_);
     }
 };
 
