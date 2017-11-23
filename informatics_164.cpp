@@ -1,9 +1,6 @@
 #include <iostream>
-
-#include <cmath>
-#include <cstdio>
 #include <vector>
-#include <algorithm>
+
 std::vector <int> e[101];
 int k = 1;
 int u;
